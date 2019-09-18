@@ -1,6 +1,4 @@
-FROM python:3.6-slim AS infrastructure
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends build-essential gcc
+FROM python:3.4-alpine
 
 # Make sure scripts in .local are usable:
 ENV PATH=/root/.local/bin:$PATH
@@ -14,11 +12,7 @@ ADD requirements.txt .
 #https://pythonspeed.com/articles/multi-stage-docker-python/
 RUN pip install --user -r requirements.txt
 
-###########################
-FROM python:3.6-slim AS app
-COPY --from=infrastructure /root/.local /root/.local
+ADD . /code
+WORKDIR /code
 
-ADD . /home/shay
-WORKDIR /home/shay
-
-CMD [ "python", "my_script.py" ]
+CMD ["python", "app.py"]
