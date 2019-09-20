@@ -7,5 +7,11 @@ DockerClonePrivateGit
 docker build --tag clone-private-git . --build-arg GIT_CREDS="$(cat ~/.git-credentials)";
 
 docker run -it --rm clone-private-git
+
+```
+
+MORE:
+```console
+docker build --tag clone-private-git . --build-arg GIT_CREDS="$(cat ~/.git-credentials)" --no-cache --pull
 ```
 

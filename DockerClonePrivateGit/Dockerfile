@@ -4,7 +4,7 @@ FROM python:3.6-slim AS infrastructure
 # https://askubuntu.com/questions/65081/what-are-the-implications-of-no-install-recommends-apt-get-install
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	build-essential \
-	gcc \ 
+	gcc \
  	git
 
 
