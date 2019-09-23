@@ -41,5 +41,7 @@ RUN pip install --user -r requirements.txt
 #add the code
 ADD . .
 
+# passings args to entropy point
+# https://stackoverflow.com/a/53897608/1640414
 ENTRYPOINT ["python", "my_script.py"]
 CMD []
