@@ -1,3 +1,4 @@
 TOCOMMIT:
-* MultiStageWithArgs: updated python script to parse ints
-* 
+* added SimpleUbuntu, RunShellScriptWithArgs for fast tests
+* MutliStageWithArgs:
+    *added entrypoint.sh to act as a startup scripts for multi python process

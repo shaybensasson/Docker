@@ -1,8 +1,8 @@
 FROM python:3.6-slim AS infrastructure
 RUN apt-get update && apt-get install -y --no-install-recommends \
- 	git
+ 	libgomp1
 # 	openssh-client \
-# 	libgomp1
+# 	git
 
 #libgomp1 is required by lightgbm
 
@@ -19,29 +19,26 @@ COPY --from=infrastructure . .
 RUN useradd --create-home --shell /bin/bash shay
 
 #own its home dir
+ENV WORKDIR=/home/shay
 RUN chown -R shay /home/shay
+
+WORKDIR $WORKDIR
+
+#add the code and set permissions
+# (before adding the user)
+ADD . .
+RUN chmod 755 entrypoint.sh
 
 #set as active user
 USER shay
 
-WORKDIR /home/shay
-
 # Make sure scripts in .local are usable:
-ENV PATH=/home/shay/.local/bin:$PATH
-
-# Add requirements.txt before rest of repo for caching
-# it must be before "ADD . <DEST>" line
-# https://www.aptible.com/documentation/deploy/tutorials/faq/dockerfile-caching/pip-dockerfile-caching.html
-ADD requirements.txt .
+ENV PATH=$WORKDIR/.local/bin:$PATH
 
 #--user puts everything in /root/.local
 #https://pythonspeed.com/articles/multi-stage-docker-python/
 RUN pip install --user -r requirements.txt
 
-#add the code
-ADD . .
-
 # passings args to entropy point
 # https://stackoverflow.com/a/53897608/1640414
-ENTRYPOINT ["python", "my_script.py"]
-CMD []
+ENTRYPOINT ["/bin/bash", "-c", "./entrypoint.sh \"$@\"", "--"]
