@@ -1,0 +1,10 @@
+mkdir -p ~/Homer/deployment/docker && \
+rsync -ahvr --progress shay@shayuni.dynu.net:~/Homer/deployment/docker/ ~/Homer/deployment/docker/
+
+chmod +x ./Homer/deployment/docker/install.sh && ./Homer/deployment/docker/install.sh
+
+docker load -i ~/Homer/deployment/docker/homer-hp-gen.docker.tar
+
+docker run -it --rm -v ~/Temp/docker-with-vols:/docker-with-vols --user $(id -u):$(id -g) docker-with-vols
+
+find ~/Temp/docker-with-vols/
