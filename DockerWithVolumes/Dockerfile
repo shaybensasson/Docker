@@ -1,20 +1,23 @@
-FROM ubuntu
+FROM python:3.6-slim
 
-ENV name John Dow
+# WORKDIR $WORK_DIR
+WORKDIR /workdir
 
-#RUN useradd --create-home --shell /bin/bash cognitive
+# Make sure scripts in .local are usable:
+ENV PATH=/root/.local/bin:$PATH
 
-# ARG UID=1000
-ENV USER="shay"
-RUN useradd --create-home --shell /bin/bash $USER
+#add the code and set permissions
+ADD . .
+RUN chmod 755 entrypoint.sh
 
-#own its home dir
-ENV USER_DIR=/home/$USER
-ENV WORK_DIR=$USER_DIR/Homer
-RUN chown -R $USER $USER_DIR
+RUN pip install tqdm --user
 
-USER $USER
+# ENTRYPOINT [ "python", "my_script.py" ]
 
-WORKDIR /docker-with-vols
+# passings args to the entry point
+# https://stackoverflow.com/a/53897608/1640414
+ENTRYPOINT ["/bin/bash", "-c", "./entrypoint.sh \"$@\"", "--"]
+# CMD []
 
-ENTRYPOINT echo 'Hello' > 3.txt
+# ENTRYPOINT ["cat", "./entrypoint.sh"]
+# CMD []

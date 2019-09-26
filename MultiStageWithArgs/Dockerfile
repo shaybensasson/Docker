@@ -39,6 +39,6 @@ ENV PATH=$WORKDIR/.local/bin:$PATH
 #https://pythonspeed.com/articles/multi-stage-docker-python/
 RUN pip install --user -r requirements.txt
 
-# passings args to entropy point
+# passings args to the entry point
 # https://stackoverflow.com/a/53897608/1640414
 ENTRYPOINT ["/bin/bash", "-c", "./entrypoint.sh \"$@\"", "--"]

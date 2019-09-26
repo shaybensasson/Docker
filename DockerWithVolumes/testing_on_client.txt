@@ -8,3 +8,9 @@ docker load -i ~/Homer/deployment/docker/homer-hp-gen.docker.tar
 docker run -it --rm -v ~/Temp/docker-with-vols:/docker-with-vols --user $(id -u):$(id -g) docker-with-vols
 
 find ~/Temp/docker-with-vols/
+
+
+*************************************************
+rsync -ahvr --progress shay@132.72.66.181:/home/shay/Projects/Docker/ /home/cognitive/Projects/Docker/
+
+docker build --tag docker-with-vols . && docker run -it --rm -v /Temp/docker-with-vols:/docker-with-vols docker-with-vols
