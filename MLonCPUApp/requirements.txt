@@ -1,5 +1,5 @@
 tqdm==4.32.1
-PyYAML==5.1
+PyYAML==5.4
 coloredlogs==10.0
 
 numpy==1.16.3
